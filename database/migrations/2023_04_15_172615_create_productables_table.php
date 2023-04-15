@@ -13,7 +13,7 @@ class CreateProductablesTable extends Migration
      */
     public function up()
     {
-        Schema::create('cart_product', function (Blueprint $table) {
+        Schema::create('productables', function (Blueprint $table) {
             $table->bigInteger('product_id')->unsigned();
             $table->integer('quantity')->unsigned();
             $table->morphs('productable');
