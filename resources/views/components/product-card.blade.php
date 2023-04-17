@@ -5,5 +5,9 @@
         <h5 class="card-title"> {{ $product->title }} </h5>
         <p class="card-text"> {{ $product->description }} </p>
         <p class="card-text"> <strong> {{ $product->stock }} left </strong> </p>
+        <form action="{{ route('products.carts.store', ['product' => $product->id]) }}" method="POST" class="d-inline">
+            @csrf
+            <button type="submit" class="btn btn-success">Add to cart</button>
+        </form>
     </div>
 </div>
