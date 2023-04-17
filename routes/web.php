@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProductController;
+// use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductCartController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
@@ -18,10 +18,11 @@ use App\Http\Controllers\MainController;
 |
 */
 
-Route::get('/', [MainController::class, 'index']);
+Route::get('/', [MainController::class, 'index'])->name('main');
 
 // Manera de manejar las rutas en una sola linea de codigo
-Route::resource('products', ProductController::class);
+// Estas rutas se pasan al su propio archivo de panel
+// Route::resource('products', ProductController::class);
 
 Route::resource('products.carts', ProductCartController::class)->only(['store', 'destroy']);
 

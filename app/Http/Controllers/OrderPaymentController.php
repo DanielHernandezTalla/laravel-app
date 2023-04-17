@@ -48,7 +48,7 @@ class OrderPaymentController extends Controller
         $order->save();
 
         return redirect()
-            ->route('products.index')
+            ->route('main')
             ->withSuccess("Thanks! Your payment for \${$order->total} was successful.");
         // return redirect()
         //     ->route('main')
