@@ -5,6 +5,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductCartController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\OrderPaymentController;
 use App\Http\Controllers\MainController;
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +28,9 @@ Route::resource('products.carts', ProductCartController::class)->only(['store', 
 Route::resource('carts', CartController::class)->only(['index']);
 
 Route::resource('orders', OrderController::class)->only(['create', 'store']);
+
+Route::resource('orders.payments', OrderPaymentController::class)->only(['create', 'store']);
+
 // Route::resource('products', ProductController::class)->only(['index', 'show']);
 // Route::resource('products', ProductController::class)->except(['create']);
 
