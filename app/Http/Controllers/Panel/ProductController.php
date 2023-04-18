@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Panel;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use App\Models\PanelProduct;
 use App\Http\Requests\ProductRequest;
 use App\Http\Controllers\Controller;
+use Illuminate\Auth\Events\Validated;
 
 class ProductController extends Controller
 {
@@ -50,6 +52,7 @@ class ProductController extends Controller
     }
 
     public function store (ProductRequest $request) {
+        // dd($request->validated());
     // public function store () {
         // $product = Product::create([
         //     'title' => request()->title,
@@ -84,6 +87,23 @@ class ProductController extends Controller
         // $product = Product::create($request()->all());
         $product = PanelProduct::create($request->validated());
 
+        foreach($request->images as $image){
+
+            // dd($image);
+            $file = $image;
+            $file_name = $file->getClientOriginalName();    
+            $file_ext = $file->getClientOriginalExtension();
+            $fileInfo = pathinfo($file_name);
+            $newname = $fileInfo['filename']  . "." . $file_ext;
+            $destinationPath = public_path('images/products');
+            $file->move($destinationPath, $newname);
+            $url = 'images/products/' . $fileInfo['filename'] . "." . $file_ext;
+            
+            $product->images()->create([
+                'path' => $url
+            ]);
+        }
+
         // session()->flash('success', "The new product with id {$product->id} was created");
 
         // return($product);
@@ -102,6 +122,7 @@ class ProductController extends Controller
 
     public function update(ProductRequest $request, PanelProduct $product) {
 
+        // dd($request->validated());
         // $rules = [
         //     'title' => ['required', 'max:255'],
         //     'description' => ['required', 'max:1000'],
@@ -115,6 +136,34 @@ class ProductController extends Controller
         // $product = Product::findOrFail($product);
 
         $product->update($request->validated());
+
+        if($request->hasFile('images')){
+
+            foreach($product->images as $image){
+
+                $path = storage_path("app/public//{$image->path}");
+
+                File::delete($path);
+
+                $image->delete();
+            }
+
+
+            foreach($request->images as $image){
+                $file = $image;
+                $file_name = $file->getClientOriginalName();    
+                $file_ext = $file->getClientOriginalExtension();
+                $fileInfo = pathinfo($file_name);
+                $newname = $fileInfo['filename']  . "." . $file_ext;
+                $destinationPath = public_path('images/products');
+                $file->move($destinationPath, $newname);
+                $url = 'images/products/' . $fileInfo['filename'] . "." . $file_ext;
+                
+                $product->images()->create([
+                    'path' => $url
+                ]);
+            }
+        }
 
         return redirect()->route('products.index')->withSuccess("The new product with id {$product->id} was updated");
     }
