@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Panel;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Models\Product;
+use App\Models\PanelProduct;
 use App\Http\Requests\ProductRequest;
 use App\Http\Controllers\Controller;
 
@@ -20,7 +20,7 @@ class ProductController extends Controller
 
     public function index(){
         // $products = DB::table('products')->get();
-        $products = Product::all();
+        $products = PanelProduct::all();
         
         // dd($products);
         
@@ -36,7 +36,7 @@ class ProductController extends Controller
     }
     
     // Se trae el dato directamente de la base de datos cuando recibes el parametro con el nombre del modelo
-    public function show (Product $product) {
+    public function show (PanelProduct $product) {
         // $product = DB::table('products')->where('id', $product)->first();
         // $product = DB::table('products')->find($product);
         // $product = Product::findOrFail($product);
@@ -82,7 +82,7 @@ class ProductController extends Controller
 
         // dd($request);
         // $product = Product::create($request()->all());
-        $product = Product::create($request->validated());
+        $product = PanelProduct::create($request->validated());
 
         // session()->flash('success', "The new product with id {$product->id} was created");
 
@@ -94,13 +94,13 @@ class ProductController extends Controller
             ->withSuccess("The new product with id {$product->id} was created");
     }
 
-    public function edit (Product $product) {
+    public function edit (PanelProduct $product) {
         return view('products.edit')->with([
             'product' => $product
         ]);
     }
 
-    public function update(ProductRequest $request, Product $product) {
+    public function update(ProductRequest $request, PanelProduct $product) {
 
         // $rules = [
         //     'title' => ['required', 'max:255'],
@@ -119,7 +119,7 @@ class ProductController extends Controller
         return redirect()->route('products.index')->withSuccess("The new product with id {$product->id} was updated");
     }
 
-    public function destroy (Product $product) {
+    public function destroy (PanelProduct $product) {
         // $product = Product::findOrFail($product);
 
         $product->delete();

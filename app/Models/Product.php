@@ -4,10 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Scopes\AvailableScope;
 
 class Product extends Model
 {
     use HasFactory;
+
+    protected $table = 'products';
 
     protected $fillable = [
         'title',
@@ -16,6 +19,11 @@ class Product extends Model
         'stock',
         'status'
     ];
+
+    protected static function booted(): void
+    {
+        static::addGlobalScope(new AvailableScope);
+    }
 
     public function carts(){
         // return $this->belongsToMany(Cart::class)->withPivot('quantity');
