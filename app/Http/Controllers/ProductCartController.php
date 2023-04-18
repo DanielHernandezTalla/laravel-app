@@ -6,6 +6,7 @@ use App\Models\Cart;
 use App\Models\Product;
 use App\Services\CartService;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class ProductCartController extends Controller
 {
@@ -33,6 +34,12 @@ class ProductCartController extends Controller
             ->find($product->id)
             ->pivot
             ->quantity ?? 0;
+
+        if($product->stock < $quantity + 1){
+            throw ValidationException::withMessages([
+                'product' => "There is not enough   stock for the quality you required of {$product->title}"
+            ]);
+        }
 
         $cart->products()->syncWithoutDetaching([
             $product->id => ['quantity' => $quantity + 1],
