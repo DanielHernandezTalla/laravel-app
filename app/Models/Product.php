@@ -10,8 +10,15 @@ class Product extends Model
 {
     use HasFactory;
 
+    // Asignas un nombre a la tabla
     protected $table = 'products';
 
+    // Nos trae los datos con las relaciones de imagenes desde el principio
+    protected $with = [
+        'images'
+    ];
+
+    // Valores que seran ingresados de forma masiva
     protected $fillable = [
         'title',
         'description',
@@ -20,6 +27,7 @@ class Product extends Model
         'status'
     ];
 
+    // Agregando scoope global que nos traiga solo los productos disponibles 
     protected static function booted(): void
     {
         static::addGlobalScope(new AvailableScope);
@@ -38,10 +46,12 @@ class Product extends Model
         return $this->morphMany(Image::class, 'imageable');
     }
 
+    // Query para el scope 
     public function scopeAvailable($query){
         $query->where('status', 'available');
     }
 
+    // Getters
     public function getTotalAttribute()
     {
         return $this->pivot->quantity * $this->price;
