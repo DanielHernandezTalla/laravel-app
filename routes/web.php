@@ -49,6 +49,6 @@ Route::resource('orders.payments', OrderPaymentController::class)->only(['create
 
 // Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
