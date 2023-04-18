@@ -41,8 +41,8 @@ class VerificationController extends Controller
         $this->middleware('throttle:6,1')->only('verify', 'resend');
     }
 
-    public function verify(Request $request)
-    {
-        return redirect($this->redirectPath())->with('success', 'Your account has been verified. Thanks!'); 
-    }
+    // public function verify(Request $request)
+    // {
+    //     return redirect($this->redirectPath())->with('success', 'Your account has been verified. Thanks!'); 
+    // }
 }

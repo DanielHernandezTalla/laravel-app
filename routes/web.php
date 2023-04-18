@@ -7,6 +7,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderPaymentController;
 use App\Http\Controllers\MainController;
+use App\Http\Controllers\ProfileController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,6 +21,10 @@ use App\Http\Controllers\MainController;
 
 Route::get('/', [MainController::class, 'index'])->name('main');
 
+Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
+
+Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');
+
 // Manera de manejar las rutas en una sola linea de codigo
 // Estas rutas se pasan al su propio archivo de panel
 // Route::resource('products', ProductController::class);
@@ -28,9 +33,11 @@ Route::resource('products.carts', ProductCartController::class)->only(['store', 
 
 Route::resource('carts', CartController::class)->only(['index']);
 
-Route::resource('orders', OrderController::class)->only(['create', 'store']);
+Route::resource('orders', OrderController::class)
+    ->only(['create', 'store']);
 
-Route::resource('orders.payments', OrderPaymentController::class)->only(['create', 'store']);
+Route::resource('orders.payments', OrderPaymentController::class)
+    ->only(['create', 'store']);
 
 // Route::resource('products', ProductController::class)->only(['index', 'show']);
 // Route::resource('products', ProductController::class)->except(['create']);
@@ -44,11 +51,11 @@ Route::resource('orders.payments', OrderPaymentController::class)->only(['create
 // Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
 
 // Route::post('/products', [ProductController::class, 'store'])->name('products.store');
-
+    
 // Route::match(['put', 'patch'],'/products/{product}', [ProductController::class, 'update'])->name('products.update');
 
 // Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
 
-Auth::routes(['verify' => true]);
+Auth::routes();
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
