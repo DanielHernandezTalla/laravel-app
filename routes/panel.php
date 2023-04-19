@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Panel\ProductController;
 use App\Http\Controllers\Panel\PanelController;
+use App\Http\Controllers\Panel\UserController;
 use App\Http\Controllers\CartController;
 /*
 |--------------------------------------------------------------------------
@@ -20,3 +21,7 @@ Route::get('/', [PanelController::class, 'index'])->name('panel');
 // Route::resource('/', PanelController::class)->name('panelson');
 
 Route::resource('products', ProductController::class);
+
+Route::get('users', [UserController::class, 'index'])->name('users.index');
+
+Route::post('users/admin{user}', [UserController::class, 'toggleAdmin'])->name('users.admin.toggle');
