@@ -32,6 +32,14 @@ class Product extends Model
     protected static function booted(): void
     {
         static::addGlobalScope(new AvailableScope);
+
+        // Eventos que se ejecunta despues de una accion en la base de datos 
+        static::updated(function($product){
+            if($product->stock == 0 && $product->status == 'available'){
+                $product->status = 'unavailable';
+                $product->save();
+            }
+        });
     }
 
     public function carts(){
