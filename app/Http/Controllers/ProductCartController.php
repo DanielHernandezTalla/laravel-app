@@ -45,6 +45,9 @@ class ProductCartController extends Controller
             $product->id => ['quantity' => $quantity + 1],
         ]);
         
+        // Actualiza la fecha en la base de datos 
+        $cart->touch();
+
         $cookie = $this->cartService->makeCookie($cart);
         // $cookie = cookie('cart', $cart->id, 7 * 24 * 60);
         // \Cookie::make('cuco', 'cucurucu', 60 * 24 * 365);
@@ -64,6 +67,9 @@ class ProductCartController extends Controller
     public function destroy(Product $product, Cart $cart)
     {
         $cart->products()->detach($product->id);
+
+        // Actualiza la fecha en la base de datos 
+        $cart->touch();
 
         $cookie = $this->cartService->makeCookie($cart);
 
